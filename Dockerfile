@@ -8,9 +8,12 @@ RUN apk -v --update add \
         groff \
         less \
         mailcap \
+        py-setuptools \
         && \
+    pip install --upgrade setuptools && \
     pip install --upgrade awscli && \
-    pip install awsebcli --upgrade --user && \
+    pip install --upgrade awsebcli && \
+    apk add --update git && \
     apk add --update dumb-init && \
     apk add --update nodejs nodejs-npm && \
     apk add mysql mysql-client && \
@@ -19,12 +22,13 @@ RUN apk -v --update add \
     chown -R $(whoami) /usr/lib /usr/local/share /usr/local/bin  && \
     npm -g config set user root && \
     npm install -g @angular/cli && \
+    npm install -g typescript && \
+    npm install -g tslint && \
     npm cache clean --force && \
     /usr/bin/mysql_install_db --user=mysql  && \
-    chown -R mysql /var/lib/mysql
+    chown -R mysql /var/lib/mysql && \
+    export PATH=~/.local/bin:$PATH
 
-# RUN /usr/bin/mysqld_safe --datadir='/var/lib/mysql' --user=mysql &
-# RUN /usr/bin/mysqladmin -u root password 'password'
 WORKDIR /tmp
 
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
