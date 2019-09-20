@@ -1,10 +1,12 @@
-FROM alpine
+FROM alpine:latest
 
 LABEL maintainer="info@offstreet.ca"
 
 ENV NODE_OPTIONS=--max_old_space_size=4096
 
-RUN apk -v --update add \
+RUN apk update && \
+    apk upgrade && \
+    apk -v --update add \
         python \
         py-pip \
         groff \
