@@ -1,6 +1,8 @@
 FROM alpine
 
-MAINTAINER offstreet technology inc. "info@offstreet.ca"
+LABEL maintainer="info@offstreet.ca"
+
+ENV NODE_OPTIONS=--max_old_space_size=4096
 
 RUN apk -v --update add \
         python \
