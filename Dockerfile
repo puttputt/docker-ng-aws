@@ -1,27 +1,30 @@
 FROM alpine:latest
 
-LABEL maintainer="info@offstreet.ca"
+LABEL maintainer="enginering@joinoffstreet.com"
 
 ENV NODE_OPTIONS=--max_old_space_size=4096
 
 RUN apk update && \
     apk upgrade && \
     apk -v --update add \
-        python \
+        python3-dev \
         py-pip \
         groff \
         less \
         mailcap \
         py-setuptools \
-        && \
-    pip install --upgrade setuptools && \
-    pip install --upgrade awscli && \
-    pip install --upgrade awsebcli && \
+        build-base \ 
+        libressl-dev \
+        musl-dev \
+        libffi-dev \
+        py3-botocore && \
+    pip3 install --upgrade setuptools && \
+    pip3 install --upgrade awscli==1.18.34 --ignore-installed six && \
+    pip3 install --upgrade awsebcli --ignore-installed six && \
     apk add --update git && \
     apk add --update dumb-init && \
     apk add --update nodejs nodejs-npm && \
     apk add mysql mysql-client && \
-    apk -v --purge del py-pip && \
     rm /var/cache/apk/* && \
     chown -R $(whoami) /usr/lib /usr/local/share /usr/local/bin  && \
     npm -g config set user root && \
